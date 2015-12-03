@@ -114,13 +114,10 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
         // Create a robot picker dialog, this allows the user to select which robot they would like to connect to.
         // We don't need to do this step if we know which robot we want to talk to, and don't need the user to
         // decide that.
-        if (_robotPickerDialog == null) {
-            _robotPickerDialog = new RobotPickerDialog(this, this);
-        }
-        // Show the picker only if it's not showing. This keeps multiple calls to onStart from showing too many pickers.
-        if (!_robotPickerDialog.isShowing()) {
-            _robotPickerDialog.show();
-        }
+
+
+
+        this.onRobotPicked(RobotPickerDialog.RobotPicked.Ollie);
     }
 
     @Override
@@ -155,26 +152,12 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
     public void onRobotPicked(RobotPickerDialog.RobotPicked robotPicked) {
         // Dismiss the robot picker so that the user doesn't keep clicking it and trying to start
         // discovery multiple times
-        _robotPickerDialog.dismiss();
-        switch (robotPicked) {
-            // If the user picked a Sphero, you want to start the Bluetooth Classic discovery agent, as that is the
-            // protocol that Sphero talks over. This will allow us to find a Sphero and connect to it.
-            case Sphero:
-                // To get to the classic discovery agent, you use DiscoveryAgentClassic.getInstance()
-                _currentDiscoveryAgent = DiscoveryAgentClassic.getInstance();
-                break;
-            // If the user picked an Ollie, you want to start the Bluetooth LE discovery agent, as that is the protocol
-            // that Ollie talks over. This will allow you to find an Ollie and connect to it.
-            case Ollie:
-                // To get to the LE discovery agent, you use DiscoveryAgentLE.getInstance()
-                _currentDiscoveryAgent = DiscoveryAgentLE.getInstance();
-                break;
-        }
+
+        _currentDiscoveryAgent = DiscoveryAgentLE.getInstance();
 
         // Now that we have a discovery agent, we will start discovery on it using the method defined below
         startDiscovery();
     }
-
     /**
      * Invoked when the discovery agent finds a new available robot, or updates and already available robot
      * @param robots The list of all robots, connected or not, known to the discovery agent currently
