@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
+
 import com.orbotix.ConvenienceRobot;
 import com.orbotix.Ollie;
 import com.orbotix.Sphero;
@@ -114,14 +116,27 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
         // Create a robot picker dialog, this allows the user to select which robot they would like to connect to.
         // We don't need to do this step if we know which robot we want to talk to, and don't need the user to
         // decide that.
-        if (_robotPickerDialog == null) {
-            _robotPickerDialog = new RobotPickerDialog(this, this);
-        }
-        // Show the picker only if it's not showing. This keeps multiple calls to onStart from showing too many pickers.
-        if (!_robotPickerDialog.isShowing()) {
-            _robotPickerDialog.show();
-        }
+
+
+
+        this.onRobotPicked(RobotPickerDialog.RobotPicked.Ollie);
     }
+
+    @Override
+    protected void onStop(){
+        if( _connectedRobot != null )
+            _connectedRobot.disconnect();
+        super.onStop();
+    }
+
+    public void stopOllie(View view){
+        if( _connectedRobot != null ){
+            _connectedRobot.disconnect();
+        }
+
+
+    }
+
 
     @Override
     protected void onPause() {
@@ -155,26 +170,12 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
     public void onRobotPicked(RobotPickerDialog.RobotPicked robotPicked) {
         // Dismiss the robot picker so that the user doesn't keep clicking it and trying to start
         // discovery multiple times
-        _robotPickerDialog.dismiss();
-        switch (robotPicked) {
-            // If the user picked a Sphero, you want to start the Bluetooth Classic discovery agent, as that is the
-            // protocol that Sphero talks over. This will allow us to find a Sphero and connect to it.
-            case Sphero:
-                // To get to the classic discovery agent, you use DiscoveryAgentClassic.getInstance()
-                _currentDiscoveryAgent = DiscoveryAgentClassic.getInstance();
-                break;
-            // If the user picked an Ollie, you want to start the Bluetooth LE discovery agent, as that is the protocol
-            // that Ollie talks over. This will allow you to find an Ollie and connect to it.
-            case Ollie:
-                // To get to the LE discovery agent, you use DiscoveryAgentLE.getInstance()
-                _currentDiscoveryAgent = DiscoveryAgentLE.getInstance();
-                break;
-        }
+
+        _currentDiscoveryAgent = DiscoveryAgentLE.getInstance();
 
         // Now that we have a discovery agent, we will start discovery on it using the method defined below
         startDiscovery();
     }
-
     /**
      * Invoked when the discovery agent finds a new available robot, or updates and already available robot
      * @param robots The list of all robots, connected or not, known to the discovery agent currently
@@ -217,7 +218,7 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
                 // Don't forget to turn on UI elements
                 _joystick.setEnabled(true);
                 _calibrationView.setEnabled(true);
-                _colorPickerButton.setEnabled(true);
+               // _colorPickerButton.setEnabled(true);
                 _calibrationButtonView.setEnabled(true);
 
                 // Depending on what was connected, you might want to create a wrapper that allows you to do some
@@ -229,7 +230,7 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
                     // Ollie has a developer mode that will allow a developer to poke at Bluetooth LE data manually
                     // without being disconnected. Here we set up the button to be able to enable or disable
                     // developer mode on the robot.
-                    setupDeveloperModeButton();
+                    //setupDeveloperModeButton();
                 }
                 else if (robot instanceof RobotClassic) {
                     _connectedRobot = new Sphero(robot);
@@ -244,15 +245,15 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
                 // do not have to handle the user continuing to use them while the robot is not connected
                 _joystick.setEnabled(false);
                 _calibrationView.setEnabled(false);
-                _colorPickerButton.setEnabled(false);
+//                _colorPickerButton.setEnabled(false);
                 _calibrationButtonView.setEnabled(false);
 
                 // Disable the developer mode button when the robot disconnects so that it can be set up if a LE robot
                 // connectes again
-                if (robot instanceof RobotLE && _developerModeLayout != null) {
+               /* if (robot instanceof RobotLE && _developerModeLayout != null) {
                     _developerModeLayout.setVisibility(View.INVISIBLE);
                 }
-
+*/
                 // When a robot disconnects, you might want to start discovery so that you can reconnect to a robot.
                 // Starting discovery on disconnect however can cause unintended side effects like connecting to
                 // a robot with the application closed. You should think carefully of when to start and stop discovery.
@@ -388,8 +389,8 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
         });
 
         // Find the color picker fragment and add a click listener to show the color picker
-        _colorPickerButton = (Button)findViewById(R.id.colorPickerButton);
-        _colorPickerButton.setOnClickListener(new View.OnClickListener() {
+        //_colorPickerButton = (Button)findViewById(R.id.colorPickerButton);
+       /* _colorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -398,16 +399,16 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
                 transaction.addToBackStack("DriveSample");
                 transaction.commit();
             }
-        });
+        });*/
 
     }
 
-    private void setupDeveloperModeButton() {
+   /* private void setupDeveloperModeButton() {
         // Getting the developer mode button
         if (_developerModeLayout == null)
         {
-            _developerModeSwitch = (Switch)findViewById(R.id.developerModeSwitch);
-            _developerModeLayout = (LinearLayout)findViewById(R.id.developerModeLayout);
+            //_developerModeSwitch = (Switch)findViewById(R.id.developerModeSwitch);
+           // _developerModeLayout = (LinearLayout)findViewById(R.id.developerModeLayout);
 
             _developerModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -419,7 +420,7 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
             });
         }
         _developerModeLayout.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     /**
      * Starts discovery on the set discovery agent and look for robots
