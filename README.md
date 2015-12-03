@@ -1,4 +1,4 @@
-# Hack The Future 2015
+# Hack The Future 2015 [![Build Status](https://travis-ci.org/connery0/controlcenter.svg)](https://travis-ci.org/connery0/controlcenter)
 > *Het is 2277, 3 jaar na de fallout en jullie verlaten de bunker om voorraad te verzamelen. Anderen liggen
 echter op de loer om jullie bunker aan te vallen. Jullie ontwikkelen ControlCenter, een webapplicatie die het mogelijk maakt om vanop 
 afstand de bunker in de gaten te houden en te beschermen.*
