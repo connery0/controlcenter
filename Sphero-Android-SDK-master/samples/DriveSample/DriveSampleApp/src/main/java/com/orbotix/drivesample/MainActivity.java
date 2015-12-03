@@ -120,6 +120,10 @@ public class MainActivity extends Activity implements RobotPickerDialog.RobotPic
 
 
         this.onRobotPicked(RobotPickerDialog.RobotPicked.Ollie);
+        _joystick.setEnabled(true);
+        _calibrationView.setEnabled(false);
+//                _colorPickerButton.setEnabled(false);
+        _calibrationButtonView.setEnabled(false);
     }
 
     @Override

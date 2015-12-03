@@ -167,7 +167,7 @@ public class CalibrationView extends WidgetGraphicView implements Controller {
         addWidgetPart(mDot1);
         addWidgetPart(mDot2);
 
-        Point pos = new Point(200, 150);
+        Point pos = new Point(100, 50);
         int[] colors = new int[] {0xffffffff, 0xff888888};
         mGlowingCircle.setPosition(pos);
         mInnerDashedCircle.setPosition(pos);

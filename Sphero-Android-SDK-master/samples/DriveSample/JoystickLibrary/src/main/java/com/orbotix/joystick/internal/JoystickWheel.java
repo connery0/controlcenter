@@ -29,7 +29,8 @@ public class JoystickWheel extends Drawable {
 
         this.paint.setMaskFilter(new BlurMaskFilter(blur, BlurMaskFilter.Blur.INNER));
         this.paint.setStyle(Paint.Style.FILL);
-        this.setColor(0xff000000);
+        this.setColor(0x003300);
+        this.setAlpha(50);
     }
 
     /**

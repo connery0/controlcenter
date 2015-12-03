@@ -38,9 +38,9 @@ public class JoystickPuck extends Drawable {
         this.surface = new Surface();
         this.shading = new Shading();
 
-        this.setShadowColor(0xff000000);
-        this.setSurfaceColor(0xffcccccc);
-        this.setShadingColor(0xff000000);
+        this.setShadowColor(0x009900);
+        this.setSurfaceColor(0x006600);
+        this.setShadingColor(0x00FF00);
     }
 
     /**
