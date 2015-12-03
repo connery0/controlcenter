@@ -3,16 +3,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/entire_view"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/fallout"
+    >
 
-    <Button
-            android:id="@+id/colorPickerButton"
-            android:layout_width="190dp"
-            android:layout_height="80dp"
-            android:text="@string/color_picker_title"
-            />
+
 
     <LinearLayout
             android:id="@+id/developerModeLayout"
@@ -29,7 +26,7 @@
                 android:layout_weight=".5"
                 android:gravity="center"
                 />
-        <Switch
+       <Switch
                 android:id="@+id/developerModeSwitch"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
