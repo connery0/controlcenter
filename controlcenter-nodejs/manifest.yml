@@ -1,4 +1,4 @@
 applications:
-- name: htf-controlcenter-myteam
+- name: htf-controlcenter-htf_3
   memory: 128MB
   instances: 1
